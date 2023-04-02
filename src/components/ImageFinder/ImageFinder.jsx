@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Component, PureComponent } from "react";
+import { PureComponent } from "react";
 import { Searchbar } from "./searchbar/Searchbar.jsx";
 import { ImageGallery } from "./imageGallery/ImageGallery";
 import { ImageGalleryItem } from "./imageGalleryItem/ImageGalleryItem.jsx";

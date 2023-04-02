@@ -25,6 +25,6 @@ export const fetchImages = async searchQuery => {
     return filteredReq;
 }
 
-export default {
-    fetchImages,
-};
+// export default {
+//     fetchImages,
+// };
