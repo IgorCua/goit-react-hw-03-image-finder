@@ -43,9 +43,10 @@ export class ImageFinder extends PureComponent{
         }
     }
     
-    loadMore = () => {
-        this.setState({page: this.state.page += 1})
-
+    loadMore = async () => {
+        await this.setState(prevState => {
+            return {page: prevState.page + 1}
+        })
         console.log("loadMore2", this.state)
 
         this.loadImg().then(req => {
@@ -60,7 +61,7 @@ export class ImageFinder extends PureComponent{
 
         try{
             const request = await axios.get(`
-                https://pixabay.com/api/?key=${API_KEY}&page=${page > num ? 1 : page}&per_page=${pageLimit}
+                https://pixabay.com/api/?key=${API_KEY}&page=${page}&per_page=${pageLimit}
                 &${inputVal}
             `);
             // console.log(request.data.hits)
@@ -85,8 +86,17 @@ export class ImageFinder extends PureComponent{
         this.setState({input: evt.target[1].value})
     }
 
+    updatePage = () => {
+        this.setState(prevState => {
+            // const page = this.state.page;
+            console.log("UpdatePage prevState", prevState)
+            return {page: prevState.page + 1};
+        })
+        console.log('Updatepage', this.state)
+    }
+
     render(){
-        // console.log(this.state)
+        console.log("render", this.state)
         // console.log(this.state.requestedImgArr)
         return (
             <>
