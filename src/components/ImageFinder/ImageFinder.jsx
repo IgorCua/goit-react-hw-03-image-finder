@@ -4,12 +4,13 @@ import { Searchbar } from "./searchbar/Searchbar.jsx";
 import { ImageGallery } from "./imageGallery/ImageGallery";
 import { ImageGalleryItem } from "./imageGalleryItem/ImageGalleryItem.jsx";
 import { Button } from "./button/Button.jsx";
+import { Audio } from  'react-loader-spinner'
 
 export class ImageFinder extends PureComponent{
     state = {
         API_KEY: "34265158-b3e7c04db650eceaa44e6318e",
         page: 1,
-        pageLimit: 4,
+        pageLimit: 12,
         requestedImgArr: [],
         input: ''
     }
@@ -17,7 +18,7 @@ export class ImageFinder extends PureComponent{
     async componentDidMount(){
         const imgArr = await this.loadImg();
         // console.log(imgArr)
-        console.log("didMount")
+        // console.log("didMount")x
         this.setState({requestedImgArr: imgArr})
     }
 
@@ -27,7 +28,6 @@ export class ImageFinder extends PureComponent{
 
     componentDidUpdate(prevProps, prevState, snapshot){
         if(prevState.requestedImgArr !== this.state.requestedImgArr){
-            console.log('imgArr changed', snapshot)
             window.scrollTo({
                 top: snapshot,
                 behavior: "smooth"
@@ -37,7 +37,7 @@ export class ImageFinder extends PureComponent{
             console.log("didUpdate")
 
             this.loadImg(1).then(req => {
-                console.log('req',req)
+                // console.log('req',req)
                 this.setState({page: 1, requestedImgArr: req})
             })
         }
@@ -47,7 +47,7 @@ export class ImageFinder extends PureComponent{
         await this.setState(prevState => {
             return {page: prevState.page + 1}
         })
-        console.log("loadMore2", this.state)
+        // console.log("loadMore2", this.state)
 
         this.loadImg().then(req => {
             this.setState({requestedImgArr: [...this.state.requestedImgArr, ...req]})
@@ -61,7 +61,7 @@ export class ImageFinder extends PureComponent{
 
         try{
             const request = await axios.get(`
-                https://pixabay.com/api/?key=${API_KEY}&page=${page}&per_page=${pageLimit}
+                https://pixabay.com/api/?key=${API_KEY}&page=${num === 1 ? num : page}&per_page=${pageLimit}
                 &${inputVal}
             `);
             // console.log(request.data.hits)
@@ -86,23 +86,25 @@ export class ImageFinder extends PureComponent{
         this.setState({input: evt.target[1].value})
     }
 
-    updatePage = () => {
-        this.setState(prevState => {
-            // const page = this.state.page;
-            console.log("UpdatePage prevState", prevState)
-            return {page: prevState.page + 1};
-        })
-        console.log('Updatepage', this.state)
-    }
-
     render(){
-        console.log("render", this.state)
+        // console.log("render", this.state)
         // console.log(this.state.requestedImgArr)
         return (
             <>
                 <Searchbar input={this.state.input} formHandler={this.formHandler}></Searchbar>
                 <ImageGallery>
-                    <ImageGalleryItem requestedImgArr={this.state.requestedImgArr}></ImageGalleryItem>
+                    <ImageGalleryItem requestedImgArr={this.state.requestedImgArr}>
+                        <Audio
+                            height = "80"
+                            width = "80"
+                            radius = "9"
+                            color = 'green'
+                            ariaLabel = 'three-dots-loading'     
+                            wrapperStyle
+                            wrapperClass
+                        />
+                    </ImageGalleryItem>
+
                 </ImageGallery>
                 <Button loadMore={this.loadMore}/>
             </>
