@@ -4,7 +4,7 @@ import { Searchbar } from "./searchbar/Searchbar.jsx";
 import { ImageGallery } from "./imageGallery/ImageGallery";
 import { ImageGalleryItem } from "./imageGalleryItem/ImageGalleryItem.jsx";
 import { Button } from "./button/Button.jsx";
-import { Audio } from  'react-loader-spinner'
+// import { Audio } from  'react-loader-spinner';
 
 export class ImageFinder extends PureComponent{
     state = {
