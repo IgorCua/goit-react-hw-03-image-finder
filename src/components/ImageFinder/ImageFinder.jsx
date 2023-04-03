@@ -93,18 +93,7 @@ export class ImageFinder extends PureComponent{
             <>
                 <Searchbar input={this.state.input} formHandler={this.formHandler}></Searchbar>
                 <ImageGallery>
-                    <ImageGalleryItem requestedImgArr={this.state.requestedImgArr}>
-                        <Audio
-                            height = "80"
-                            width = "80"
-                            radius = "9"
-                            color = 'green'
-                            ariaLabel = 'three-dots-loading'     
-                            wrapperStyle
-                            wrapperClass
-                        />
-                    </ImageGalleryItem>
-
+                    <ImageGalleryItem requestedImgArr={this.state.requestedImgArr}/>
                 </ImageGallery>
                 <Button loadMore={this.loadMore}/>
             </>
