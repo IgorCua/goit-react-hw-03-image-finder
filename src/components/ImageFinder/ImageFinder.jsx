@@ -35,17 +35,12 @@ export class ImageFinder extends PureComponent{
             })
         }
         if (prevState.input !== this.state.input) {
-            console.log("didUpdate")
+            // console.log("didUpdate")
 
             this.loadImg(1).then(req => {
                 // console.log('req',req)
                 this.setState({page: 1, requestedImgArr: req})
             })
-        }
-
-        if(this.state.requestedImgArr.length === this.state.total){
-            console.log('limit');
-            // this.hideComponent("Button")
         }
     }
     
@@ -70,7 +65,7 @@ export class ImageFinder extends PureComponent{
                 https://pixabay.com/api/?key=${API_KEY}&page=${num === 1 ? num : page}&per_page=${pageLimit}
                 &${inputVal}
             `);
-            console.log("request", request.data.total)
+            // console.log("request", request.data.total)
             // console.log(this.state.requestedImgArr.length)
             
             filteredReq = request.data.hits.map(e => {
@@ -98,7 +93,7 @@ export class ImageFinder extends PureComponent{
     }
 
     render(){
-        console.log("render", this.state)
+        // console.log("render", this.state)
         // console.log(this.state.requestedImgArr)
         return (
             <>
