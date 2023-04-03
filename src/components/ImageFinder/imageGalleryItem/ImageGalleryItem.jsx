@@ -28,10 +28,10 @@ export const ImageGalleryItem = ({requestedImgArr}) => {
           ariaLabel = 'three-dots-loading'     
           wrapperStyle = {{
             'position': 'absolute',
-            'marginTop': '20%',
+            'marginTop': '25%',
             'marginLeft': '38%',
           }}
-          wrapperClass = 'true'
+          wrapperClass = {style.wrapper}
         >
         </Audio>
 
