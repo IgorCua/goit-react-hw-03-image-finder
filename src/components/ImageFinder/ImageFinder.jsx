@@ -9,24 +9,25 @@ import { Audio } from  'react-loader-spinner'
 export class ImageFinder extends PureComponent{
     state = {
         API_KEY: "34265158-b3e7c04db650eceaa44e6318e",
-        page: 1,
+        page: 0,
         pageLimit: 12,
         requestedImgArr: [],
-        input: ''
+        input: '',
+        total: 0
     }
 
     async componentDidMount(){
-        const imgArr = await this.loadImg();
-        // console.log(imgArr)
-        // console.log("didMount")x
-        this.setState({requestedImgArr: imgArr})
+        // const imgArr = await this.loadImg();
+        // console.log(imgArr);
+        // console.log("didMount");
+        // this.setState({requestedImgArr: imgArr});
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
         return document.body.clientHeight;
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
+    async componentDidUpdate(prevProps, prevState, snapshot){
         if(prevState.requestedImgArr !== this.state.requestedImgArr){
             window.scrollTo({
                 top: snapshot,
@@ -40,6 +41,11 @@ export class ImageFinder extends PureComponent{
                 // console.log('req',req)
                 this.setState({page: 1, requestedImgArr: req})
             })
+        }
+
+        if(this.state.requestedImgArr.length === this.state.total){
+            console.log('limit');
+            // this.hideComponent("Button")
         }
     }
     
@@ -64,15 +70,20 @@ export class ImageFinder extends PureComponent{
                 https://pixabay.com/api/?key=${API_KEY}&page=${num === 1 ? num : page}&per_page=${pageLimit}
                 &${inputVal}
             `);
-            // console.log(request.data.hits)
+            console.log("request", request.data.total)
+            // console.log(this.state.requestedImgArr.length)
+            
             filteredReq = request.data.hits.map(e => {
                 return {
                     id: e.id,
                     webformatURL: e.webformatURL, 
                     largeImageURL: e.largeImageURL, 
-                    tags: e.tags
+                    tags: e.tags,
                 }
             });
+
+            this.setState({total: request.data.total});
+
         } catch (error) {
             console.log(error);
         }
@@ -87,7 +98,7 @@ export class ImageFinder extends PureComponent{
     }
 
     render(){
-        // console.log("render", this.state)
+        console.log("render", this.state)
         // console.log(this.state.requestedImgArr)
         return (
             <>
@@ -95,7 +106,11 @@ export class ImageFinder extends PureComponent{
                 <ImageGallery>
                     <ImageGalleryItem requestedImgArr={this.state.requestedImgArr}/>
                 </ImageGallery>
-                <Button loadMore={this.loadMore}/>
+                <Button 
+                    loadMore={this.loadMore}
+                    total = {this.state.total}
+                    reqImgArrLength={this.state.requestedImgArr.length} 
+                />
             </>
         )
     }
